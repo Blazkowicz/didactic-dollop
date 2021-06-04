@@ -1,0 +1,14 @@
+{
+	"Targets": [
+		{
+			"Name": "Tyyne",
+			"Path": "D:\\Projects\\DidacticDollop\\didactic-dollop\\Tyyne\\Source\\Tyyne.Target.cs",
+			"Type": "Game"
+		},
+		{
+			"Name": "TyyneEditor",
+			"Path": "D:\\Projects\\DidacticDollop\\didactic-dollop\\Tyyne\\Source\\TyyneEditor.Target.cs",
+			"Type": "Editor"
+		}
+	]
+}
