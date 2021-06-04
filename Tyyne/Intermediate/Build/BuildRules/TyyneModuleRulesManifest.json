@@ -1,0 +1,8 @@
+{
+	"SourceFiles": [
+		"D:\\Projects\\DidacticDollop\\didactic-dollop\\Tyyne\\Source\\Tyyne\\Tyyne.Build.cs",
+		"D:\\Projects\\DidacticDollop\\didactic-dollop\\Tyyne\\Source\\Tyyne.Target.cs",
+		"D:\\Projects\\DidacticDollop\\didactic-dollop\\Tyyne\\Source\\TyyneEditor.Target.cs"
+	],
+	"EngineVersion": "5.0.0"
+}
