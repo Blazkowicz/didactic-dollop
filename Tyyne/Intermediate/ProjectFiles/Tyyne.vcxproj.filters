@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Tyyne.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{2C2F15F6-4801-48A4-8097-677C290AFA27}</UniqueIdentifier>
+      <UniqueIdentifier>{1393FF30-5B64-4083-9742-6D577A322E1B}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Tyyne.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{FE9FBEEE-2447-48D7-9440-4BAA71950F85}</UniqueIdentifier>
+      <UniqueIdentifier>{6F71C6B4-D45F-4FAE-BD77-5AE151D1FBA5}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,8 +30,14 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Tyyne">
-      <UniqueIdentifier>{2C679A5A-B30D-409B-BFB8-A67A491E3216}</UniqueIdentifier>
+      <UniqueIdentifier>{47782775-2B57-4C39-AF29-4BE24F791F62}</UniqueIdentifier>
     </Filter>
+    <ClCompile Include="..\..\Source\Tyyne\CharacterAttributeSet.cpp">
+      <Filter>Source\Tyyne</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tyyne\CharacterAttributeSet.h">
+      <Filter>Source\Tyyne</Filter>
+    </ClInclude>
     <None Include="..\..\Source\Tyyne\Tyyne.Build.cs">
       <Filter>Source\Tyyne</Filter>
     </None>

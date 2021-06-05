@@ -1,13 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "TyyneCharacter.h"
-#include "HeadMountedDisplayFunctionLibrary.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/InputComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Controller.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "AbilitySystemComponent.h"
+#include "CharacterAttributeSet.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATyyneCharacter
@@ -45,6 +46,81 @@ ATyyneCharacter::ATyyneCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Ability System Component"));
+}
+
+void ATyyneCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//Initializes the attribute set using a data table.
+	if (IsValid(AbilitySystemComponent))
+	{
+		AttributeSet = AbilitySystemComponent->GetSet<UCharacterAttributeSet>();
+
+		//GetGameplayAttributeValueChangedDelegate will enable you to bind delegates without programming them manually.
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(AttributeSet->GetHealthAttribute()).AddUObject(this, &ATyyneCharacter::OnHealthChangedInternal);
+	}
+}
+
+void ATyyneCharacter::OnHealthChangedInternal(const FOnAttributeChangeData& Data)
+{
+	OnHealthChanged(Data.OldValue, Data.NewValue);
+}
+
+float ATyyneCharacter::GetHealth() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetHealth();
+	}
+
+	return -1.0f;
+}
+
+float ATyyneCharacter::GetMaxHealth() const
+{
+	if (IsValid(AttributeSet))
+	{
+		return AttributeSet->GetMaxHealth();
+	}
+
+	return 0.0f;
+}
+
+void ATyyneCharacter::GrantAbility(TSubclassOf<UGameplayAbility> AbilityClass, int32 Level, int32 InputCode)
+{
+	if (GetLocalRole() == ROLE_Authority && IsValid(AbilitySystemComponent) && IsValid(AbilityClass))
+	{
+		UGameplayAbility* Ability = AbilityClass->GetDefaultObject<UGameplayAbility>();
+
+		if (IsValid(Ability))
+		{
+			// create the new ability spec struct. Ability specs contain metadata about the ability, like what level they're set to, as well as a reference to the ability.
+			FGameplayAbilitySpec AbilitySpec(
+				Ability,
+				Level,
+				InputCode
+			);
+
+			AbilitySystemComponent->GiveAbility(AbilitySpec);
+		}
+	}
+}
+
+void ATyyneCharacter::ActivateAbility(int32 InputCode)
+{
+	if (IsValid(AbilitySystemComponent))
+	{
+		AbilitySystemComponent->AbilityLocalInputPressed(InputCode);
+	}
+}
+
+void ATyyneCharacter::CancelAbilityWithTags(const FGameplayTagContainer CancelWithTags)
+{
+	//Use tags to cancel abilities where possible
+	AbilitySystemComponent->CancelAbilities(&CancelWithTags);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -68,35 +144,8 @@ void ATyyneCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInp
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ATyyneCharacter::LookUpAtRate);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &ATyyneCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &ATyyneCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ATyyneCharacter::OnResetVR);
 }
 
-
-void ATyyneCharacter::OnResetVR()
-{
-	// If Tyyne is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in Tyyne.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void ATyyneCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		Jump();
-}
-
-void ATyyneCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
-}
 
 void ATyyneCharacter::TurnAtRate(float Rate)
 {
