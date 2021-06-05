@@ -20,13 +20,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character")
 	FGameplayAttributeData Health;
-	/* Getters and setters for Health. The VALUE_GETTER macro creates a basic const function for getting the current value, the  */
+	/* Getters and setters for Health. The VALUE_GETTER macro creates a basic const function for getting the current value */
 	GAMEPLAYATTRIBUTE_VALUE_GETTER(Health);
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(Health);
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(Health);
 	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(UCharacterAttributeSet, Health);
 
-	/** Max Health. Used as a workaround for the Min/Max values not being available in the base implementation of the attribute table */
+	/** Max Health. Used as a workaround for the Min/Max values not being available in the base implementation? TODO: Research Min/Max */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character")
 	FGameplayAttributeData MaxHealth;
 	GAMEPLAYATTRIBUTE_VALUE_GETTER(MaxHealth);

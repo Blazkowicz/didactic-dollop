@@ -5,7 +5,7 @@
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
 
-//This function should handle logic that should happen after GameplayEffect is applied to the ASC that owns this AttributeSet. In effect it "listens" for changes to happen.
+//This function should handle logic that should happen after GameplayEffect is applied to the ASC that owns this AttributeSet. In effect it listens for changes to happen.
 void UCharacterAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
