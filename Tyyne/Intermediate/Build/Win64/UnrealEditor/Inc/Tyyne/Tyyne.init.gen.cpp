@@ -21,8 +21,8 @@ void EmptyLinkFunctionForGeneratedCodeTyyne_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x4635FE5F,
-				0x71B51F8D,
+				0x1FF4C790,
+				0x61611A98,
 				METADATA_PARAMS(nullptr, 0)
 			};
 			UECodeGen_Private::ConstructUPackage(ReturnPackage, PackageParams);

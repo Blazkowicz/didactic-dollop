@@ -10,6 +10,12 @@
 /**
  * 
  */
+#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+
 UCLASS()
 class TYYNE_API UCharacterAttributeSet : public UAttributeSet
 {
@@ -20,19 +26,13 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character")
 	FGameplayAttributeData Health;
-	/* Getters and setters for Health. The VALUE_GETTER macro creates a basic const function for getting the current value */
-	GAMEPLAYATTRIBUTE_VALUE_GETTER(Health);
-	GAMEPLAYATTRIBUTE_VALUE_SETTER(Health);
-	GAMEPLAYATTRIBUTE_VALUE_INITTER(Health);
-	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(UCharacterAttributeSet, Health);
+	/* Getters and setters for Health */
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, Health);
 
 	/** Max Health. Used as a workaround for the Min/Max values not being available in the base implementation? TODO: Research Min/Max */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Character")
 	FGameplayAttributeData MaxHealth;
-	GAMEPLAYATTRIBUTE_VALUE_GETTER(MaxHealth);
-	GAMEPLAYATTRIBUTE_VALUE_SETTER(MaxHealth);
-	GAMEPLAYATTRIBUTE_VALUE_INITTER(MaxHealth);
-	GAMEPLAYATTRIBUTE_PROPERTY_GETTER(UCharacterAttributeSet, MaxHealth);
+	ATTRIBUTE_ACCESSORS(UCharacterAttributeSet, MaxHealth);
 
 
 };

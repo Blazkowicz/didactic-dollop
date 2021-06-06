@@ -3,7 +3,7 @@
   <ItemGroup>
     <None Include="..\..\Tyyne.uproject" />
     <Filter Include="Source">
-      <UniqueIdentifier>{1393FF30-5B64-4083-9742-6D577A322E1B}</UniqueIdentifier>
+      <UniqueIdentifier>{DF5A1033-DA96-451B-B39D-9EDF299D54F0}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Source\Tyyne.Target.cs">
       <Filter>Source</Filter>
@@ -12,7 +12,7 @@
       <Filter>Source</Filter>
     </None>
     <Filter Include="Config">
-      <UniqueIdentifier>{6F71C6B4-D45F-4FAE-BD77-5AE151D1FBA5}</UniqueIdentifier>
+      <UniqueIdentifier>{5F34B063-629D-4981-AC8C-38C55E47FA9D}</UniqueIdentifier>
     </Filter>
     <None Include="..\..\Config\DefaultEditor.ini">
       <Filter>Config</Filter>
@@ -30,12 +30,18 @@
       <Filter>Config</Filter>
     </None>
     <Filter Include="Source\Tyyne">
-      <UniqueIdentifier>{47782775-2B57-4C39-AF29-4BE24F791F62}</UniqueIdentifier>
+      <UniqueIdentifier>{7CBA09F7-EEAD-4BDF-A8AA-54A5E33111D7}</UniqueIdentifier>
     </Filter>
     <ClCompile Include="..\..\Source\Tyyne\CharacterAttributeSet.cpp">
       <Filter>Source\Tyyne</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\Tyyne\CharacterAttributeSet.h">
+      <Filter>Source\Tyyne</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Tyyne\MeleeDamageExecution.cpp">
+      <Filter>Source\Tyyne</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tyyne\MeleeDamageExecution.h">
       <Filter>Source\Tyyne</Filter>
     </ClInclude>
     <None Include="..\..\Source\Tyyne\Tyyne.Build.cs">
@@ -57,6 +63,12 @@
       <Filter>Source\Tyyne</Filter>
     </ClCompile>
     <ClInclude Include="..\..\Source\Tyyne\TyyneGameMode.h">
+      <Filter>Source\Tyyne</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\Tyyne\WeaponAttributeSet.cpp">
+      <Filter>Source\Tyyne</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\Tyyne\WeaponAttributeSet.h">
       <Filter>Source\Tyyne</Filter>
     </ClInclude>
   </ItemGroup>
