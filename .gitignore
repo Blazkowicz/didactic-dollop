@@ -75,3 +75,4 @@ DerivedDataCache/*
 Tyyne/Content/StarterContent/
 Tyyne/Intermediate/
 *.pdb
+Tyyne/Saved/
