@@ -21,6 +21,15 @@ class ATyyneCharacter : public ACharacter, public IAbilitySystemInterface
 public:
 	ATyyneCharacter();
 
+	UPROPERTY()
+	const class UInventoryComponent* Inventory;
+
+	UFUNCTION(BlueprintPure, Category = "Inventory")
+	const UInventoryComponent* GetInventoryComponent()
+	{
+		return Inventory;
+	}
+
 	/** Ability System Component. ASC for short */
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	class UAbilitySystemComponent* AbilitySystemComponent;
@@ -73,6 +82,8 @@ protected:
 	/** Character Attribute Set. UPROPERTY macro required for reflection. */
 	UPROPERTY()
 	const class UCharacterAttributeSet* AttributeSet;
+
+	
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);

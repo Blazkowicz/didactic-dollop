@@ -25,13 +25,37 @@ class TYYNE_API UWeaponAttributeSet : public UAttributeSet
 public:
 	void PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data) override;
 
-	//Weapon damage
+	// Common Weapon Attributes
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
-	FGameplayAttributeData Damage;
-	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, Damage);
+	FGameplayAttributeData BaseDamage;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, BaseDamage);
 
-	//Magazine size. If melee set to 1
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+	FGameplayAttributeData BaseFireRate;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, BaseFireRate);
+
+	
+
+
+	// Melee Attributes
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+	FGameplayAttributeData Durability;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, Durability);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon")
+	FGameplayAttributeData MaxDurability;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, MaxDurability);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Melee")
+	FGameplayAttributeData Sharpness;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, Sharpness);
+
+	// Ranged Attributes
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Ranged")
 	FGameplayAttributeData Magazine;
 	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, Magazine);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Weapon|Ranged")
+	FGameplayAttributeData Spread;
+	ATTRIBUTE_ACCESSORS(UWeaponAttributeSet, Spread);
 };

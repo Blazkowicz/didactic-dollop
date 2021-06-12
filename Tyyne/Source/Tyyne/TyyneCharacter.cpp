@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "AbilitySystemComponent.h"
 #include "CharacterAttributeSet.h"
+#include "InventoryComponent.h"
 
 //////////////////////////////////////////////////////////////////////////
 // ATyyneCharacter
@@ -40,6 +41,7 @@ ATyyneCharacter::ATyyneCharacter()
 
 
 	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("Ability System Component"));
+	Inventory = CreateDefaultSubobject<UInventoryComponent>(TEXT("Inventory Component"));
 }
 
 void ATyyneCharacter::BeginPlay()
