@@ -73,3 +73,8 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 Tyyne/Content/StarterContent/
+Tyyne/Saved/
+Tyyne/Intermediate/
+Tyyne/Content/ParagonLtBelica/
+Tyyne/Content/ParagonAurora/
+Tyyne/Binaries/
