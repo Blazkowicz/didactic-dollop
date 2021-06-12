@@ -72,9 +72,26 @@ Plugins/*/Intermediate/*
 
 # Cache files for the editor to use
 DerivedDataCache/*
+
+# Spotlight index files
+.DS_Store
+
+# Visual Studio Code files
+.vscode
+*.code-workspace
+
+# Rider user specific files
+.idea/
+Tyyne/Content/ParagonAurora/
+Tyyne/Content/ParagonLtBelica/
 Tyyne/Content/StarterContent/
+<<<<<<< HEAD
 Tyyne/Saved/
 Tyyne/Intermediate/
 Tyyne/Content/ParagonLtBelica/
 Tyyne/Content/ParagonAurora/
+=======
+Tyyne/Intermediate/
+Tyyne/Saved/
+>>>>>>> feature/S1-GAS-Test
 Tyyne/Binaries/
