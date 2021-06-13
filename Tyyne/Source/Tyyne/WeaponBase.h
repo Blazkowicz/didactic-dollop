@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ItemBase.h"
+#include "EquipableBase.h"
 #include "AbilitySystemInterface.h"
 #include "GameplayTagContainer.h"
 #include "GameplayEffectTypes.h"
 #include "WeaponBase.generated.h"
 
 UCLASS()
-class TYYNE_API AWeaponBase : public AItemBase, public IAbilitySystemInterface
+class TYYNE_API AWeaponBase : public AEquipableBase, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 	
