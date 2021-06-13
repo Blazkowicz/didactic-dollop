@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include <Engine/DataTable.h>
-#include "ItemBase.h"
+#include "EquipableBase.h"
 #include "InventoryComponent.generated.h"
 
 USTRUCT(BlueprintType)
@@ -15,13 +15,22 @@ struct FItemData : public FTableRowBase
 public:
 	FItemData()
 	{}
-	FItemData(FName id, FName name, float weight, int32 stacks, int32 uses)
+	FItemData(AItemBase* item)
 	{
-		Id = id;
-		Name = name;
-		Weight = weight;
-		Stacks = stacks;
-		Uses = uses;
+		AEquipableBase* Equipable = Cast<AEquipableBase>(item);
+		if (Equipable)
+		{
+			Slot = Equipable->GetSlot();
+		}
+		else
+		{
+			Slot = FName(TEXT("None"));
+		}
+		Id = item->GetId();
+		Name = item->GetName();
+		Weight = item->GetWeight();
+		Stacks = item->GetStacks();
+		Uses = item->GetUses();
 	}
 	void CopyItem(const FItemData& other)
 	{
@@ -46,6 +55,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	uint8 Index;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName Slot;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName Name;
@@ -68,7 +79,10 @@ public:
 	UInventoryComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	bool AddToInventory(AItemBase* item);
+	bool AddItemToInventory(AItemBase* item);
+
+	UFUNCTION(BlueprintCallable, Category = "Inventory")
+	void AddStructToInventory(FItemData item);
 
 	UFUNCTION(BlueprintPure, Category = "Inventory")
 	TArray<FItemData> GetInventory();
@@ -86,7 +100,7 @@ public:
 	void RemoveAmountFromInventory(uint8 index, int32 amount);
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	void EquipFromInventory(uint8 index, FName slot);
+	bool EquipFromInventory(uint8 index, FName slot);
 
 protected:
 	// Called when the game starts

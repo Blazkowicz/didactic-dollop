@@ -8,8 +8,6 @@ UInventoryComponent::UInventoryComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 
-	UE_LOG(LogTemp, Warning, TEXT("Constructor of InvComp"));
-
 	EquipmentSlots.Add(FName("Head"));
 	EquipmentSlots.Add(FName("LeftArm"));
 	EquipmentSlots.Add(FName("RightArm"));
@@ -40,11 +38,11 @@ void UInventoryComponent::UpdateIndex()
 	}
 }
 
-bool UInventoryComponent::AddToInventory(AItemBase* item)
+bool UInventoryComponent::AddItemToInventory(AItemBase* item)
 {
 	if(item)
 	{
-		FItemData ItemStruct = FItemData(item->GetId(), item->GetName(), item->GetWeight(), item->GetStacks(), item->GetUses());
+		FItemData ItemStruct = FItemData(item);
 		
 		FItemData* ItemDataPtr = Items.FindByKey(ItemStruct);
 		if (ItemDataPtr)
@@ -61,6 +59,20 @@ bool UInventoryComponent::AddToInventory(AItemBase* item)
 	return false;
 }
 
+void UInventoryComponent::AddStructToInventory(FItemData item)
+{
+	FItemData* ItemDataPtr = Items.FindByKey(item);
+	if (ItemDataPtr)
+	{
+		ItemDataPtr->Stacks += item.Stacks;
+	}
+	else
+	{
+		Items.Add(item);
+		Items.FindByKey(item)->Index = Items.Find(item);
+	}
+}
+
 TArray<FItemData> UInventoryComponent::GetInventory()
 {
 	return Items;
@@ -68,7 +80,6 @@ TArray<FItemData> UInventoryComponent::GetInventory()
 
 TMap<FName, FItemData> UInventoryComponent::GetEquipment()
 {
-	UE_LOG(LogTemp, Warning, TEXT("GetEquipment was called"));
 	return Equipment;
 }
 
@@ -101,9 +112,20 @@ void UInventoryComponent::RemoveAmountFromInventory(uint8 index, int32 amount)
 	}
 }
 
-void UInventoryComponent::EquipFromInventory(uint8 index, FName slot)
+bool UInventoryComponent::EquipFromInventory(uint8 index, FName slot)
 {
-	UE_LOG(LogTemp, Warning, TEXT("EquipFromInventory was called"));
-	Equipment.FindChecked(slot).Name = Items[index].Name;
-	RemoveFromInventory(index);
+	if (Items[index].Slot.Compare(slot) == 0)
+	{
+		if (!Equipment.Find(slot)->Id.IsNone())
+		{
+			AddStructToInventory(*Equipment.Find(slot));
+		}
+		Equipment.Emplace(slot, Items[index]);
+		RemoveFromInventory(index);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
