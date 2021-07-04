@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include <Components/StaticMeshComponent.h>
+#include "Components/StaticMeshComponent.h"
 #include "ItemBase.generated.h"
 
 UCLASS()

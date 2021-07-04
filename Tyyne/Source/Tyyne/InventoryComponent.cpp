@@ -1,7 +1,33 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "InventoryComponent.h"
+#include "EquipableBase.h"
+#include "GameFramework/Character.h"
+
+
+FItemData::FItemData(AItemBase* item)
+{
+	Id = item->GetId();
+	Name = item->GetName();
+	Weight = item->GetWeight();
+	Stacks = item->GetStacks();
+	Uses = item->GetUses();
+	AEquipableBase* equip = Cast<AEquipableBase>(item);
+	if(equip)
+	{
+		Slot = equip->GetSlot();
+	}
+	else
+	{
+		Slot = "None";
+	}
+}
+
+FEquipmentData::FEquipmentData(AEquipableBase* equip)
+	: FItemData(equip)
+{
+	Slot = equip->GetSlot();
+}
 
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
@@ -18,6 +44,8 @@ UInventoryComponent::UInventoryComponent()
 	{
 		Equipment.Add(slot, FItemData());
 	}
+
+	
 }
 
 
@@ -25,7 +53,11 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
+	Player = Cast<ACharacter>(GetOwner());
+	if (!Player)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Owning Character Invalid"));
+	}
 	
 }
 
@@ -42,7 +74,17 @@ bool UInventoryComponent::AddItemToInventory(AItemBase* item)
 {
 	if(item)
 	{
-		FItemData ItemStruct = FItemData(item);
+		AEquipableBase* equip = Cast<AEquipableBase>(item);
+		FItemData ItemStruct;
+		if (equip)
+		{
+			ItemStruct = FEquipmentData(equip);
+		}
+		else
+		{
+			ItemStruct = FItemData(item);
+		}
+		
 		
 		FItemData* ItemDataPtr = Items.FindByKey(ItemStruct);
 		if (ItemDataPtr)
@@ -54,13 +96,17 @@ bool UInventoryComponent::AddItemToInventory(AItemBase* item)
 			Items.Add(ItemStruct);
 			Items.FindByKey(ItemStruct)->Index = Items.Find(ItemStruct);
 		}
+		item->Destroy();
 		return true;
 	}
+	
 	return false;
 }
 
 void UInventoryComponent::AddStructToInventory(FItemData item)
 {
+	//FEquipmentData* equip = Cast<FEquipmentData>(&item);
+
 	FItemData* ItemDataPtr = Items.FindByKey(item);
 	if (ItemDataPtr)
 	{
@@ -114,7 +160,8 @@ void UInventoryComponent::RemoveAmountFromInventory(uint8 index, int32 amount)
 
 bool UInventoryComponent::EquipFromInventory(uint8 index, FName slot)
 {
-	if (Items[index].Slot.Compare(slot) == 0)
+	FItemData* equip = &Items[index];
+	if (equip && equip->Slot.Compare(slot) == 0)
 	{
 		if (!Equipment.Find(slot)->Id.IsNone())
 		{
@@ -124,8 +171,6 @@ bool UInventoryComponent::EquipFromInventory(uint8 index, FName slot)
 		RemoveFromInventory(index);
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	
+	return false;
 }

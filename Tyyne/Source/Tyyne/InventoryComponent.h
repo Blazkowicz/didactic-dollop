@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include <Engine/DataTable.h>
-#include "EquipableBase.h"
+#include <Abilities/GameplayAbility.h>
 #include "InventoryComponent.generated.h"
 
 USTRUCT(BlueprintType)
@@ -15,38 +15,7 @@ struct FItemData : public FTableRowBase
 public:
 	FItemData()
 	{}
-	FItemData(AItemBase* item)
-	{
-		AEquipableBase* Equipable = Cast<AEquipableBase>(item);
-		if (Equipable)
-		{
-			Slot = Equipable->GetSlot();
-		}
-		else
-		{
-			Slot = FName(TEXT("None"));
-		}
-		Id = item->GetId();
-		Name = item->GetName();
-		Weight = item->GetWeight();
-		Stacks = item->GetStacks();
-		Uses = item->GetUses();
-	}
-	void CopyItem(const FItemData& other)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Its getting called"));
-		Id = other.Id;
-		Name = other.Name;
-		Weight = other.Weight;
-	}
-	FORCEINLINE void ClearStruct()
-	{
-		Id = "";
-		Name = "";
-		Weight = -1;
-		Stacks = 0;
-		Uses = 0;
-	}
+	FItemData(class AItemBase* item);
 
 	FORCEINLINE bool operator==(const FItemData& other) const
 	{
@@ -54,8 +23,6 @@ public:
 	}
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	uint8 Index;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName Slot;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -66,6 +33,26 @@ public:
 	int32 Stacks;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Uses;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName Slot;
+};
+
+USTRUCT(BlueprintType)
+struct FEquipmentData : public FItemData
+{
+	GENERATED_BODY()
+public:
+	FEquipmentData()
+	{}
+	FEquipmentData(class AEquipableBase* equip);
+	FORCEINLINE bool operator==(const FEquipmentData& other) const
+	{
+		return Id == other.Id;
+	}
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UGameplayAbility> Attack;
+
 };
 
 
@@ -79,7 +66,7 @@ public:
 	UInventoryComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
-	bool AddItemToInventory(AItemBase* item);
+	bool AddItemToInventory(class AItemBase* item);
 
 	UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void AddStructToInventory(FItemData item);
@@ -115,4 +102,6 @@ private:
 	TMap<FName, FItemData> Equipment;
 
 	void UpdateIndex();
+
+	class ACharacter* Player;
 };
