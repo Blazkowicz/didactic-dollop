@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.0EA",
+	"EngineAssociation": "5.0",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -46,6 +46,10 @@
 		},
 		{
 			"Name": "SequencerScripting",
+			"Enabled": true
+		},
+		{
+			"Name": "SunPosition",
 			"Enabled": true
 		}
 	]
