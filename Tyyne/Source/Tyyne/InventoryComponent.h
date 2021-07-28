@@ -103,5 +103,5 @@ private:
 
 	void UpdateIndex();
 
-	class ACharacter* Player;
+	class ATyyneCharacter* Player;
 };

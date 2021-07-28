@@ -2,7 +2,7 @@
 
 #include "InventoryComponent.h"
 #include "EquipableBase.h"
-#include "GameFramework/Character.h"
+#include "TyyneCharacter.h"
 
 
 FItemData::FItemData(AItemBase* item)
@@ -53,7 +53,7 @@ UInventoryComponent::UInventoryComponent()
 void UInventoryComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	Player = Cast<ACharacter>(GetOwner());
+	Player = Cast<ATyyneCharacter>(GetOwner());
 	if (!Player)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Owning Character Invalid"));
